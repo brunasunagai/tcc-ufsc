@@ -17,6 +17,6 @@ This is a **[link to Google](https://google.com)**
 - Hyperlinks to other notes:
 This is a [`link to the dictionary page`](#dictionary)
 - Images:
-Add the image to the same folder, then drag the file to this .md and press Shift to choodse where to put it.
+Add the image to the same folder, then drag the file to this .md and press Shift to choose where to put it.
 ![Alt text](vertical_sigla_fundo_claro.png)
 
