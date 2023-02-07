@@ -5,6 +5,7 @@ Ctrl+k then v
 
 - Changin color using HTML:
 <span style="color:blue"> This is a blue text</span>.
+<span style="color:green"> A </span>
 
 - Blockquotes:
 > This is a quote.
