@@ -1,5 +1,19 @@
 # Interpolation notes
-- <span style="color:red"> VVC define filtros de interpolação de **8-taps**, que utilizam **até** 8 amostras de posições inteiras ao redor da amostra gerada: ? </span>
+- > **Interpolation representation: [Link to Google Sheets](https://docs.google.com/spreadsheets/d/1AQiJA64BiLvZiIIWtz4v4J0p_Ya3iRX3FwPq1uFpbFI/edit#gid=1674681217)**
+  - Considerações na minha implementação:
+    ![Alt text](images/interpolation_direction.png)
+    - **Precisão de 1/4**: mesmo tendo 16 filtros disponíveis pelo VTM, utilizei apenas os 3 filtros que eu precisava, de precisões de 1/4, 2/4 e 3/4. 
+    - **Direção de geração de amostras fracionárias**, a partir de amostras inteiras, é para baixo e para esquerda.
+    Logo, as amostras no limite direito NÃO geram amostras fracionárias horizontais. 
+    E as amostras no limite inferior, NÃO geram amostras fracionárias verticais.
+    - **Input**: uma linha de tamanho N + 2*PADDING:
+    ![Alt text](images/input_line_interpolation.png)
+    - **Processamento paralelo de uma linha** do bloco por vez: precisaria de *N-1 sets de filtros*. 
+      [?] Na minha arquitetura do SIM, fizemos N+1 sets paralelos...
+      Por exemplo, N=4 precisa gerar as amostras fracionárias entre os 4 inteiros, ou seja, são 3x4 amostras geradas: ![Alt text](images/process_a_line.png)
+---
+
+- <span style="color:black"> VVC define filtros de interpolação de **8-taps**, que utilizam **até** 8 amostras de posições inteiras ao redor da amostra gerada: ? </span>
 - O VVC define que os **Motion Vectors (MVs)** tenham precisão de até 1/4, então por exemplo entre os inteiros 1 e 2, temos: 1, 1.25, 1.50, 1.75 e 2. Logo, são necessários **3 filtros** diferentes de interpolação para gerar essas 3 amostras fracionárias. 
 - O bloco de pixels originais é na verdade o bloco resultante da **Integer Motion Estimation (IME)** e é a partir dos blocos resultantes dessa etapa que devem ser gerados os blocos fracionários. 
 

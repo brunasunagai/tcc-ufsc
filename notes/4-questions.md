@@ -3,3 +3,6 @@
 - [ ] O padding serve para representar blocos inteiros originais, certo?
 - [ ] O padding precisa estar rodeando, de todos os lados ou só no canto esquerdo e superior, como na imagem?
   ![Alt text](./images/padding_sup_esq.png)
+
+# Interpolation
+- [ ] Por que no cálculo final da interpolação que fiz anteriormente, fiz um arredondamento de /64 (rounding term)?
