@@ -1,6 +1,6 @@
 # Interpolation notes
 - > **Interpolation representation: [Link to Google Sheets](https://docs.google.com/spreadsheets/d/1AQiJA64BiLvZiIIWtz4v4J0p_Ya3iRX3FwPq1uFpbFI/edit#gid=1674681217)**
-  - Considerações na minha implementação:
+  - **<span style="color:blue">Considerações na minha implementação:</span>**
     ![Alt text](images/interpolation_direction.png)
     - **Precisão de 1/4**: mesmo tendo 16 filtros disponíveis pelo VTM, utilizei apenas os 3 filtros que eu precisava, de precisões de 1/4, 2/4 e 3/4. 
     - **Direção de geração de amostras fracionárias**, a partir de amostras inteiras, é para baixo e para esquerda.
@@ -8,9 +8,13 @@
     E as amostras no limite inferior, NÃO geram amostras fracionárias verticais.
     - **Input**: uma linha de tamanho N + 2*PADDING:
     ![Alt text](images/input_line_interpolation.png)
-    - **Processamento paralelo de uma linha** do bloco por vez: precisaria de *N-1 sets de filtros*. 
+    - **Processamento paralelo de uma linha/coluna** do bloco por vez: precisaria de *N-1 sets de filtros*. 
       [?] Na minha arquitetura do SIM, fizemos N+1 sets paralelos...
       Por exemplo, N=4 precisa gerar as amostras fracionárias entre os 4 inteiros, ou seja, são 3x4 amostras geradas: ![Alt text](images/process_a_line.png)
+    - **Número de ciclos** necessários para completar o processamento de um bloco NxN: 
+     $$
+      C_H + C_V + C_D = N + N + (N-1)\times(FRAC-1)
+     $$
 ---
 
 - <span style="color:black"> VVC define filtros de interpolação de **8-taps**, que utilizam **até** 8 amostras de posições inteiras ao redor da amostra gerada: ? </span>
@@ -28,3 +32,12 @@
 - > "**As amostras interpoladas são então agrupadas para gerar os blocos candidatos em posições fracionárias**, e esses blocos candidatos avaliados quanto a sua similaridade com a coding block atual pelo passo de busca e comparação. No total, até 48 novos blocos em posições fracionárias podem ser gerados ao redor do resultado da IME. **A Figura 9a) representa o agrupamento das amostras em posições fracionárias**, na qual cada um dos quadrados de 1 a 48 representam a primeira amostra de cada um dos 48 blocos fracionários que podem ser gerados" (p. 26, Exame de qualificação Murilo).
 - From the PCS article:
     > "VVC simplifies this model by using **pixel blocks** instead of individual pixels, resulting in lower memory usage and complexity. Each macroblock consists of many 4x4 pixel sub-blocks. Each ub-block has its own macro-block-derived motion vector estimate (MV), which in VVC can range from a single sub-block (4x4 pixels) to a 128x128 block (1024 sub-blocks) [3]"
+
+- Equaões dos filtros: 
+  $$
+    A_{-3}C_0+A_{-2}C_1+A_{-1}C_2+A_0C_3+A_1C_4+A_2C_5+A_3C6+A_4C_7
+  $$
+  A
+  A
+
+
