@@ -15,3 +15,4 @@
 - Like HEVC, **VVC uses 8-tap FIR** filters to generate fractional pixels. Each of the **15 filters** has its own coefficient set. The filter coefficients are shown in Table I. An example of how filter 6 (F6) is calculated from the <span style="color:red"> 8 integer input samples</span> **A−3, A−2, A−1, A0, A1, A2, A3, and A4** is shown in (1).![Alt text](images/F6.png) 
   - > OS COEFICIENTES DADOS REPRESENTAM 15 FILTROS DE 8-TAPS CADA, ENTÃO PARA O CÁLCULO DA INTERPOLAÇÃO, TEMOS:
         INPUT = 8 AMOSTRAS INTEIRAS
+- > FME utiliza precisão de 1/4, ou seja, apenas 3 dos 15 filtros são necessários (Mateus que disse).

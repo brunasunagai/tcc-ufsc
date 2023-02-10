@@ -2,7 +2,8 @@
 - > **Interpolation representation: [Link to Google Sheets](https://docs.google.com/spreadsheets/d/1AQiJA64BiLvZiIIWtz4v4J0p_Ya3iRX3FwPq1uFpbFI/edit#gid=1674681217)**
   - **<span style="color:blue">Considerações na minha implementação:</span>**
     ![Alt text](images/interpolation_direction.png)
-    - **Precisão de 1/4**: mesmo tendo 16 filtros disponíveis pelo VTM, utilizei apenas os 3 filtros que eu precisava, de precisões de 1/4, 2/4 e 3/4. 
+    - **Precisão de 1/16**: eu achei que tinha lido que a precisão era de 1/4, mas não é isso porque no VTM tem 15 filtros disponíveis para Affine.
+    Obs: 1/4 de precisão é para a FME! 
     - **Direção de geração de amostras fracionárias**, a partir de amostras inteiras, é para baixo e para esquerda.
     Logo, as amostras no limite direito NÃO geram amostras fracionárias horizontais. 
     E as amostras no limite inferior, NÃO geram amostras fracionárias verticais.
