@@ -13,8 +13,10 @@
       Por exemplo, N=4 precisa gerar as amostras fracionárias entre os 4 inteiros, ou seja, são 3x4 amostras geradas: ![Alt text](images/process_a_line.png)
     - **Número de ciclos** necessários para completar o processamento de um bloco NxN: 
      $$
-      C_H + C_V + C_D = N + N + (N-1)\times(FRAC-1)
+      ciclos=C_H + C_V + C_D = N + N + (N-1)\times(FRAC-1)\\
+      N=4,FRAC=4\rightarrow ciclos=17
      $$
+    - **Cada amostra tem 8 bits** em complemento de 2
 ---
 
 - <span style="color:black"> VVC define filtros de interpolação de **8-taps**, que utilizam **até** 8 amostras de posições inteiras ao redor da amostra gerada: ? </span>
