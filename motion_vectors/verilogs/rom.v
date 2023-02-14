@@ -1,9 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-// Disciplina:      Video Coding
-// Project Name:    Affine Transform
-// Module Name:     
-// Description:     
-////////////////////////////////////////////////////////////////////////////////
+/*------------------------------------------------------------------------------
+ * File: rom.v
+ * Date generated: 03/11/2022
+ * Date modified: 13/02/2023
+ * Author: Bruna Suemi Nagai
+ * Description: Pre calculated values to use it as a division instead of dividing in fact 
+ *------------------------------------------------------------------------------ */
 
 module rom(
 

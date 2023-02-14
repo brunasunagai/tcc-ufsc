@@ -1,9 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-// Disciplina:      Video Coding
-// Project Name:    Affine Transform
-// Module Name:     
-// Description:     
-////////////////////////////////////////////////////////////////////////////////
+/*------------------------------------------------------------------------------
+ * File: affine_transform.v
+ * Date generated: 03/11/2022
+ * Date modified: 13/02/2023
+ * Author: Bruna Suemi Nagai
+ * Description: Combinational MV affine calculation
+ *------------------------------------------------------------------------------ */
 
 module affine_transform  #(parameter WIDTH=8)	(  
 	in_S,
