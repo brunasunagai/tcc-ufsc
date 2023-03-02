@@ -1,7 +1,7 @@
 # To do list
-- [ ] **ALTERAR DE ALWAYS PARA COMBINACIONAL DIRETO!!**
+- [x] **ALTERAR DE ALWAYS PARA COMBINACIONAL DIRETO!!**
 - [x] Generate port mode declaration (Y's sizes corrected)
-- [ ] Testbench
+- [ ] **Trocar multiplicação por -1 e por NOT**
 
 - [ ] Procurar paper  da referência [10] do paper Approximate Hardware Architecture... do Ícaro
 

@@ -5,6 +5,10 @@
 
 - **Assign** is used for net type declarations (Wire,Tri etc). Since wires change values according to the value driving them, whenever the operands on the RHS changes, the value is evaluated and assigned to LHS (simulating a wire).
 
+- **Statements:** 
+  - **=** is blocking statement. In an always block, the line of code will be executed only after it's previous line has executed. Hence, they happens one after the other, just like combinatoral logics in loop.
+  - **<=** is non-blocking in nature. This means that in an always block, every line will be executed in parallel. Hence leading to implementation of sequential elements.
+
 - **Variable data types** are: integer, real, realtime, reg, time.
     - **integer** is typically a 32 bit twos complement integer.
     - **real** is typically a 64 bit IEEE floating point number.
