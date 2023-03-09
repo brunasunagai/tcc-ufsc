@@ -1,3 +1,30 @@
+# Mar 3rd, 2023 - SBCCI
+- Seções do artigo:
+  - Introdução: 
+    - contexto do problema
+    - definir o problema
+    - como outros trabalhos têm discutido isso na literatura (estado da arte)
+    - proposta do trabalho
+    - estrutura do artigo
+  - Background:
+    - Codificação de vídeo
+    - Affine ME
+    - Detalhar o affine: equações, geração dos MVs, interpolação
+    - Detalhamento do estado da arte: ver outros artigos (proposta + resultados)
+  - Prosta:
+    - Visão geral da proposta: de onde saio e onde chego -> pode ter uma figura do sistema, entrando os blocos e saindo o resultado interpolado
+    - Vai explicando cada parte mais detalhadamente
+  - Resultados:
+    - Tabelas e figuras 
+    - Comparação com outros trabalhos 
+  - Conclusão:
+    - Retomada da introdução (intro fala o que queria fazer e depois conclui dizendo que consegui fazer)
+    - Discussão sobre o objetivo alcançado
+    - Principais resultados
+
+- No Overleaf:
+  - Arrumar o .bib pra deixar do jeito de antes
+
 # Feb 14th, 2023
 - Também é necessário **interpolar as amostras fracionárias para o padding**. Então considera que o padding vem pronto e é inteiro, por isso precisa gerar paddings fracionários para conseguir gerar as amostras fracionárias das bordas do bloco. 
 - **Número de ciclos** necessários em cada caso:
