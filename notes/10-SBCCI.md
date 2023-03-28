@@ -1,0 +1,29 @@
+## Introduction 
+According to research by Cisco \cite{cisco}, we should expect more IP traffic in the next five years than in the entire Internet history. By 2023, the number of devices connected to IP networks will be more than three times the world population. Video devices can multiply the effect on traffic, mainly due to the introduction of UHD or 4K video contents. This technology has a significant impact because the bit rate for 4K video at about 18 Mbps is more than two times the HD video bit rate. Also, the report estimates that by 2023, 66\% of the TV sets will be UHD. From now on, video communications will require even higher compression efficiency and better image quality as data consumption rapidly increases. 
+
+The increasing demand for more efficient video encoders incited the Joint Video Experts Team (JVET), a collaboration between the ITU-T Video Coding Experts Group (VCEG) and the ISO/IEC Moving Picture Experts Group (MPEG). The team released the first version of the Versatile Video Coding (VVC) software in July 2020. This codec aimed to increase compression efficiency; hence it is more complex than the prior High Efficiency Video Coding (HEVC). Comparing both encoders, the VVC can compress up to 50\% more than HEVC while preserving the same quality rate \cite{vvc-standard-and-applications}. VVC takes around 10 to 16 times more processing time than it would take with HEVC \cite{hevc-vvc}. Besides that, the developers' team carefully chose the name ``versatile'' because the VVC supports high-resolution compressions like 4K, 8K and 16K; therefore, it can be versatilely used in various emerging applications such as augmented reality. 
+
+There are some notable distinctions between the two encoders. The block partitioning structure for VVC is more intelligent and flexible than HEVC due to more options for splitting a coding tree unit (CTU) into coding units (CU), such as binary, ternary, and quaternary splits \cite{vvc-complexity}. Another essential feature is the new affine transformation for enhanced motion compensation (MC). Traditionally, MC is implemented in translational mode (TMC), which receives only one motion vector (MV) to describe a linear dislocation. However, a simple dislocation cannot represent realistic movements like rotation and zooming. So the affine motion compensation (AMC) technique was developed for VVC. Besides, improvements in intra-preditiction and the use of parallel processing were added to this new codec \cite{parallel-vvc}. 
+
+The VVC is a sophisticated codec that has allowed compression efficiency to grow, making it well-suited even for UHD. Nevertheless, the bottleneck is the speed and quality required by video consumers as the demand for live broadcasting and streaming services increases. Run times are considerably increased compared to HEVC, particularly for all intra-configuration, where it can take an hour to encode a single 4K UHD frame \cite{vvc-complexity}. Therefore, dedicated VLSI can be a solution to reduce software complexity and process data more efficiently to deliver a usable VVC codec. 
+
+This paper is organized as follows. In Section~\ref{sec.background}, we briefly introduce the mathematical operation of affine transformation and its implications. Section~\ref{sec.proposal} shows our proposed architectures for performing affine transforms in real time. Experimental results are discussed in Section~\ref{sec.results}, and Section~\ref{sec.conclusion} summarizes and concludes this paper.
+
+## Background
+% Video coding
+Video coding employs algorithms to compress video data, making it transmittable and storable. In most modern codecs, the frames are divided into smaller blocks in square or rectangle shapes, called coding units (CU). Afterward, there is the step for intra-prediction to explore spatial redundancy and inter-prediction for temporal redundancy. Thus it is possible to gain better compression rates than in entropic coding since it takes advantage of video characteristics. During the inter-prediction, the codec performs motion estimation (ME) and motion compensation (MC), which are the most time-consuming ones. In the full-search mode, those steps can reach up to 80\% of the total compression time \cite{fast-me-hevc}.  
+
+% ME and MC
+ME reduces the temporal redundancy by comparing the block to be coded, located in the current frame, with blocks of previously processed frames, called reference frames. In this process, block-matching algorithms are employed to find the most similar sample to be subtracted from the current block, resulting in motion vectors (MV) and residual data, which are transformed and quantized. After that, all information is coded by an entropy encoder. MC reconstructs the blocks from MVs and residual blocks from inverse transform, inverse quantization, and the MV. It predicts the current frame's content based on previous content.
+
+% TMC x AMC:
+... TMC x AMC
+
+% Affine general:
+The affine is a geometric transformation that maintains linear parallelism and allows complex movement representation, for instance, rotation, scaling, translation, shear and zooming. VVC simplifies the calculations by manipulating blocks of pixels (macroblock) ... instead of individual pixels, resulting in lower memory access and complexity. Each macroblock consists of many 4x4 pixel sub-blocks. Each sub-block has its own macro-block-derived motion vector estimate (MV), which in VVC can range from a single sub-block (4x4 pixels) to a 128x128 block (1024 sub-blocks). In addition to this technique, the latest encoders have much higher complexity.
+
+% Affine MV generation + equations
+... Affine MV generation + equations
+
+% Affine interpolation
+... Affine interpolation
