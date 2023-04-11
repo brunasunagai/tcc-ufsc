@@ -21,7 +21,6 @@ module affine_transform  #(parameter WIDTH=8)	(
 );
 
 
-
 // ------------------------------------------
 // IO declaration
 // ------------------------------------------
@@ -38,9 +37,6 @@ module affine_transform  #(parameter WIDTH=8)	(
 	output reg signed [WIDTH - 1 : 0] out_mv_h;
 	output reg signed [WIDTH - 1 : 0] out_mv_v;
 
-	
-
-                   
 
 // ------------------------------------------
 // Signals definitions
@@ -57,7 +53,6 @@ module affine_transform  #(parameter WIDTH=8)	(
 	wire signed [WIDTH - 1 : 0]   sig6,sig7;
 	wire signed [23 : 0]   a,b;
 	wire signed [2*WIDTH - 1 : 0] sig1,sig2,sig3,sig4;
-
 
 
 // ------------------------------------------
