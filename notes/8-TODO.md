@@ -1,5 +1,7 @@
 # To do list
 
+- [ ] O que é mais eficiente: ROM com todos os valores possíveis de multiplicação ou um multiplicador de propósito geral????
+- [ ] 
 - [ ] Iniciar a escrita do artigo para a semana que vem!
 
 - [ ] **Trocar multiplicação por -1 e por NOT**
