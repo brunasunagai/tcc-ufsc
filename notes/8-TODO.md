@@ -1,5 +1,14 @@
 # To do list
 
+## Reunião Guntzel
+- explicar a dificuldade de testar a funcionalidade real (precisaria de MV real da estimação de movimento)
+- no diagrama general overview, trocar os nomes dos vetores de referencia de MV_0 para CPMV_0, por ex
+- transformada inversa da affine porque é uma decodificação - algo tipo affine MC
+- por clk no diagrama de interfaces + usar um barramento de sinais (rst, ctrl_X/ctrl_Y)
+- tentar sintetizar os blocos separadamente primeiro
+- trabalhos relacionados: hw para affine, ver se tem trabalho que fala sobre a codificação (ME)
+- verificar quais trabalhos para hw e quais para sw e pq nao tem trabalho 
+
 - [ ] O que é mais eficiente: ROM com todos os valores possíveis de multiplicação ou um multiplicador de propósito geral????
 - [ ] 
 - [ ] Iniciar a escrita do artigo para a semana que vem!
