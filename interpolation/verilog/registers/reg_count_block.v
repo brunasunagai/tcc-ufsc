@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: reg_count_block.v
 * Date generated: 25/03/2023
-* Date modified: 10/05/2023
+* Date modified: 11/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Stores the counter to control which block will be processed
 *----------------------------------------------------------------------------------- */
@@ -21,8 +21,8 @@ module reg_count_block (
     input CLK;                              // Clock
     input RST_ASYNC_N;						// Asynchronous reset
     input WRITE_EN;							// Enables writing
-    input signed [3:0] DATA_IN;			// Data in
-    output reg signed [3:0] DATA_OUT;	    // Data out
+    input unsigned [3:0] DATA_IN;			// Data in
+    output reg unsigned [3:0] DATA_OUT;	    // Data out
     
 
 // ------------------------------------------

@@ -15,7 +15,7 @@
 15. <span style="color:blue">1 - rst_async_reg_MV_1</span>
 16. <span style="color:blue">1 - rst_async_reg_gen_MV_X</span>
 17. <span style="color:blue">1 - rst_async_reg_gen_MV_Y</span>
-18. rst_async_reg_count_block
+18. <span style="color:blue">1 - rst_async_reg_count_block</span>
 19. sel_X
 20. sel_Y
 21. --> interp_X

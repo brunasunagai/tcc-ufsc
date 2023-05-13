@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: reg_input_line.v
 * Date generated: 25/03/2023
-* Date modified: 10/05/2023
+* Date modified: 11/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Stores the integer input samples of pixels
 *----------------------------------------------------------------------------------- */
@@ -21,8 +21,8 @@ module reg_input_line (
     input CLK;                              // Clock
     input RST_ASYNC_N;						// Asynchronous reset
     input WRITE_EN;							// Enables writing
-    input signed [71:0] DATA_IN;			// Data in
-    output reg signed [71:0] DATA_OUT;	    // Data out
+    input unsigned [71:0] DATA_IN;			// Data in
+    output reg unsigned [71:0] DATA_OUT;	    // Data out
     
 
 // ------------------------------------------

@@ -1,12 +1,12 @@
 /*-----------------------------------------------------------------------------------
-* File: reg_X.v
+* File: reg_coord.v
 * Date generated: 25/03/2023
-* Date modified: 10/05/2023
+* Date modified: 11/05/2023
 * Author: Bruna Suemi Nagai
-* Description: Stores the accumulated horizontal coordenate
+* Description: Stores the coordenates
 *----------------------------------------------------------------------------------- */
 
-module reg_X (
+module reg_coord (
     CLK,
     RST_ASYNC_N, 
     WRITE_EN,
@@ -40,5 +40,5 @@ if (!RST_ASYNC_N)                        // If rst async is low
     end 
 end
 
-endmodule // reg_X
+endmodule // reg_coord
     

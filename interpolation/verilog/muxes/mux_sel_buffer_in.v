@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: mux_sel_buffer_in.v
 * Date generated: 25/03/2023
-* Date modified: 10/05/2023
+* Date modified: 11/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Selects between interpolation output (0) or external integer samples (1).
 *----------------------------------------------------------------------------------- */
