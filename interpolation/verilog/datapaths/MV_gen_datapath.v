@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: MV_gen_datapath.v
 * Date generated: 25/03/2023
-* Date modified: 13/05/2023
+* Date modified: 14/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Motion Vector Generator datapath.
 *----------------------------------------------------------------------------------- */
@@ -24,7 +24,9 @@ module MV_gen_datapath (
   output wire INTERP_X,				// Interpolate horizontally? 0: No. 1: Yes.
   output wire INTERP_Y,				// Interpolate vertically? 0: No. 1: Yes.
   output wire CTRL_X,				// {ctrl_X, ctrl_Y}? 00: Done all. 01: Next column. 10: Next line. 11: Next column.
-  output wire CTRL_Y				// {ctrl_X, ctrl_Y}? 00: Done all. 01: Next column. 10: Next line. 11: Next column.
+  output wire CTRL_Y,				// {ctrl_X, ctrl_Y}? 00: Done all. 01: Next column. 10: Next line. 11: Next column.
+  output wire [14:0] OUT_GEN_MV_X_INTEGER,
+  output wire [14:0] OUT_GEN_MV_Y_INTEGER
 );
 
 
@@ -151,13 +153,32 @@ module MV_gen_datapath (
 	.MV_H_OUT (OUT_MV_GEN_X),
 	.MV_V_OUT (OUT_MV_GEN_Y));
 
+  compare_0_4bits INTERPX (
+    .A (OUT_REG_GEN_MV_X[3:0]),
+    .NOT_EQ (INTERP_X)
+  );
+
+  compare_0_4bits INTERPY (
+    .A (OUT_REG_GEN_MV_Y[3:0]),
+    .NOT_EQ (INTERP_Y)
+  );
+
+  compare_3_2bits CTRLX (
+    .A (OUT_REG_COUNT_BLOCK[3:2]),
+    .NOT_EQ (CTRL_X)
+  );
+
+  compare_3_2bits CTRLY (
+    .A (OUT_REG_COUNT_BLOCK[1:0]),
+    .NOT_EQ (CTRL_Y)
+  );
+
+
 // ------------------------------------------
-// Combinational logic
+// Outputs
 // ------------------------------------------
-  assign INTERP_X = ~(OUT_MV_GEN_X[3:0] ^ 4'b0);
-  assign INTERP_Y = ~(OUT_MV_GEN_Y[3:0] ^ 4'b0);
-  assign CTRL_X = ~(OUT_REG_COUNT_BLOCK[3:2] ^ 2'b11);
-  assign CTRL_Y = ~(OUT_REG_COUNT_BLOCK[1:0] ^ 2'b11);
+  assign OUT_GEN_MV_X_INTEGER = OUT_REG_GEN_MV_X[18:4];
+  assign OUT_GEN_MV_Y_INTEGER = OUT_REG_GEN_MV_Y[18:4];
 
 
 endmodule // MV_gen_datapath
