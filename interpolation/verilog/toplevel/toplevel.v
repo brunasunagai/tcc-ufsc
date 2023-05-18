@@ -9,6 +9,7 @@
 module top_level (
 	input TOP_CLK, 
 	input TOP_RESET,
+	input TOP_START,
 	
 	// Inputs for MV Generator
 	input [7:0] TOP_COORD_X, 
@@ -52,8 +53,8 @@ module top_level (
 	wire wi_sel_interp_in;
 	wire wi_sel_dimension;
 	
-	wire wi_frac_MV_X;
-	wire wi_frac_MV_Y;
+	wire [3:0] wi_frac_MV_X;
+	wire [3:0] wi_frac_MV_Y;
 	
 	wire wi_loop_3;
 	wire wi_loop_4;
@@ -78,9 +79,6 @@ module top_level (
 	wire wm_interp_y;
 	wire wm_ctrl_x;
 	wire wm_ctrl_y;
-	
-	wire wm_gen_mv_x_frac;
-	wire wm_gen_mv_y_frac;
 	
 
 // ------------------------------------------
@@ -132,14 +130,15 @@ module top_level (
 		.CTRL_Y (wm_ctrl_y),
 		.OUT_GEN_MV_X_INTEGER (TOP_OUT_GEN_MV_X_INTEGER),
 		.OUT_GEN_MV_Y_INTEGER (TOP_OUT_GEN_MV_Y_INTEGER),
-		.OUT_GEN_MV_X_FRAC (wm_gen_mv_x_frac),
-		.OUT_GEN_MV_Y_FRAC (wm_gen_mv_y_frac)
+		.OUT_GEN_MV_X_FRAC (wi_frac_MV_X),
+		.OUT_GEN_MV_Y_FRAC (wi_frac_MV_Y)
 	);
 
 	
 	control FSM (
 		.CLK_CTRL (TOP_CLK),
 		.RESET_ALL (TOP_RESET),
+		.START (TOP_START),
 		.INTERP_X (wm_interp_x), 
 		.INTERP_Y (wm_interp_y),
 		.CTRL_X (wm_ctrl_x), 
