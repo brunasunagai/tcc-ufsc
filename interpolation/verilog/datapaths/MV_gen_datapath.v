@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: MV_gen_datapath.v
 * Date generated: 25/03/2023
-* Date modified: 14/05/2023
+* Date modified: 15/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Motion Vector Generator datapath.
 *----------------------------------------------------------------------------------- */
@@ -26,7 +26,9 @@ module MV_gen_datapath (
   output wire CTRL_X,				// {ctrl_X, ctrl_Y}? 00: Done all. 01: Next column. 10: Next line. 11: Next column.
   output wire CTRL_Y,				// {ctrl_X, ctrl_Y}? 00: Done all. 01: Next column. 10: Next line. 11: Next column.
   output wire [14:0] OUT_GEN_MV_X_INTEGER,
-  output wire [14:0] OUT_GEN_MV_Y_INTEGER
+  output wire [14:0] OUT_GEN_MV_Y_INTEGER,
+  output wire [3:0] OUT_GEN_MV_X_FRAC,
+  output wire [3:0] OUT_GEN_MV_Y_FRAC
 );
 
 
@@ -41,14 +43,15 @@ module MV_gen_datapath (
   wire signed [15:0] OUT_REG_CPMV_1;			// MSB: horizontal, LSB: vertical
   wire signed [18:0] OUT_REG_GEN_MV_X;
   wire signed [18:0] OUT_REG_GEN_MV_Y;
-  wire unsigned [3:0] OUT_REG_COUNT_BLOCK;
+  wire [3:0] OUT_REG_COUNT_BLOCK;
   wire signed [7:0] OUT_ADD_X;
   wire signed [7:0] OUT_ADD_Y;
-  wire unsigned [3:0] OUT_ADD_COUNT_BLOCK;
+  wire [3:0] OUT_ADD_COUNT_BLOCK;
   wire signed [7:0] OUT_MUX_X;
   wire signed [7:0] OUT_MUX_Y;
   wire signed [18:0] OUT_MV_GEN_X;
   wire signed [18:0] OUT_MV_GEN_Y;
+
 
 // ------------------------------------------
 // Modules instantiation
@@ -153,32 +156,18 @@ module MV_gen_datapath (
 	.MV_H_OUT (OUT_MV_GEN_X),
 	.MV_V_OUT (OUT_MV_GEN_Y));
 
-  compare_0_4bits INTERPX (
-    .A (OUT_REG_GEN_MV_X[3:0]),
-    .NOT_EQ (INTERP_X)
-  );
-
-  compare_0_4bits INTERPY (
-    .A (OUT_REG_GEN_MV_Y[3:0]),
-    .NOT_EQ (INTERP_Y)
-  );
-
-  compare_3_2bits CTRLX (
-    .A (OUT_REG_COUNT_BLOCK[3:2]),
-    .NOT_EQ (CTRL_X)
-  );
-
-  compare_3_2bits CTRLY (
-    .A (OUT_REG_COUNT_BLOCK[1:0]),
-    .NOT_EQ (CTRL_Y)
-  );
-
 
 // ------------------------------------------
 // Outputs
 // ------------------------------------------
   assign OUT_GEN_MV_X_INTEGER = OUT_REG_GEN_MV_X[18:4];
   assign OUT_GEN_MV_Y_INTEGER = OUT_REG_GEN_MV_Y[18:4];
+  assign OUT_GEN_MV_X_FRAC = OUT_REG_GEN_MV_X[3:0];
+  assign OUT_GEN_MV_Y_FRAC = OUT_REG_GEN_MV_Y[3:0];
+  assign INTERP_X = OUT_REG_GEN_MV_X[0] | OUT_REG_GEN_MV_X[1] | OUT_REG_GEN_MV_X[2] | OUT_REG_GEN_MV_X[3];
+  assign INTERP_Y = OUT_REG_GEN_MV_Y[0] | OUT_REG_GEN_MV_Y[1] | OUT_REG_GEN_MV_Y[2] | OUT_REG_GEN_MV_Y[3];
+  assign CTRL_X = OUT_REG_COUNT_BLOCK[2] ^ 1'b1 | OUT_REG_COUNT_BLOCK[3] ^ 1'b1;
+  assign CTRL_Y = OUT_REG_COUNT_BLOCK[0] ^ 1'b1 | OUT_REG_COUNT_BLOCK[1] ^ 1'b1;
 
 
 endmodule // MV_gen_datapath
