@@ -28,7 +28,10 @@ module MV_gen_datapath (
   output wire [14:0] OUT_GEN_MV_X_INTEGER,
   output wire [14:0] OUT_GEN_MV_Y_INTEGER,
   output wire [3:0] OUT_GEN_MV_X_FRAC,
-  output wire [3:0] OUT_GEN_MV_Y_FRAC
+  output wire [3:0] OUT_GEN_MV_Y_FRAC,
+  
+  output wire [18:0] TB_OUT_GEN_MV_X,
+  output wire [18:0] TB_OUT_GEN_MV_Y
 );
 
 
@@ -169,5 +172,7 @@ module MV_gen_datapath (
   assign CTRL_X = OUT_REG_COUNT_BLOCK[2] ^ 1'b1 | OUT_REG_COUNT_BLOCK[3] ^ 1'b1;
   assign CTRL_Y = OUT_REG_COUNT_BLOCK[0] ^ 1'b1 | OUT_REG_COUNT_BLOCK[1] ^ 1'b1;
 
+  assign TB_OUT_GEN_MV_X = OUT_MV_GEN_X;
+  assign TB_OUT_GEN_MV_Y = OUT_MV_GEN_Y;
 
 endmodule // MV_gen_datapath
