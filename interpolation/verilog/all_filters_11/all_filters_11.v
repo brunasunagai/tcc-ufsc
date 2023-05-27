@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
  * File: all_filters_11.v
  * Date generated: 05/12/2022
- * Date modified: 08/05/2023
+ * Date modified: 23/05/2023
  * Author: Bruna Suemi Nagai
  * Description: Concatenating all 15 filters in a sum tree
  *------------------------------------------------------------------------------ */
@@ -384,12 +384,12 @@ module all_filters_11 (
 // ------------------------------------------
 
 	// Splitting input into smaller parts
-	assign X0 = X[10:0];
-	assign X1 = X[21:11];
-	assign X2 = X[32:22];
-	assign X3 = X[43:33];
-	assign X4 = X[54:44];
-	assign X5 = X[65:55];
+	assign X0 = X[65:55];
+	assign X1 = X[54:44];
+	assign X2 = X[43:33];
+	assign X3 = X[32:22];
+	assign X4 = X[21:11];
+	assign X5 = X[10:0];
   
 	// Procedure for sums	
 		// First sums

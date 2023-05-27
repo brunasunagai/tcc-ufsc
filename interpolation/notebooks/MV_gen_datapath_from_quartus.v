@@ -31,8 +31,16 @@ module MV_gen_datapath (
   output wire [3:0] OUT_GEN_MV_Y_FRAC,
   
   output wire [18:0] TB_OUT_GEN_MV_X,
-  output wire [18:0] TB_OUT_GEN_MV_Y
+  output wire [18:0] TB_OUT_GEN_MV_Y,
+  output wire [7:0] TB_OUT_REG_COORD_X,
+  output wire [7:0] TB_OUT_REG_COORD_Y,
+  output wire [7:0] TB_OUT_REG_X,
+  output wire [7:0] TB_OUT_REG_Y,
+  output wire [15:0] TB_OUT_REG_CPMV_0,
+  output wire [15:0] TB_OUT_REG_CPMV_1
+  
 );
+
 
 
 // ------------------------------------------
@@ -168,11 +176,17 @@ module MV_gen_datapath (
   assign OUT_GEN_MV_X_FRAC = OUT_REG_GEN_MV_X[3:0];
   assign OUT_GEN_MV_Y_FRAC = OUT_REG_GEN_MV_Y[3:0];
   assign INTERP_X = OUT_MV_GEN_X[0] | OUT_MV_GEN_X[1] | OUT_MV_GEN_X[2] | OUT_MV_GEN_X[3];
-  assign INTERP_Y = OUT_MV_GEN_X[0] | OUT_MV_GEN_X[1] | OUT_MV_GEN_X[2] | OUT_MV_GEN_X[3];
+  assign INTERP_Y = OUT_MV_GEN_Y[0] | OUT_MV_GEN_Y[1] | OUT_MV_GEN_Y[2] | OUT_MV_GEN_Y[3];
   assign CTRL_X = OUT_REG_COUNT_BLOCK[2] ^ 1'b1 | OUT_REG_COUNT_BLOCK[3] ^ 1'b1;
   assign CTRL_Y = OUT_REG_COUNT_BLOCK[0] ^ 1'b1 | OUT_REG_COUNT_BLOCK[1] ^ 1'b1;
 
   assign TB_OUT_GEN_MV_X = OUT_MV_GEN_X;
   assign TB_OUT_GEN_MV_Y = OUT_MV_GEN_Y;
+  assign TB_OUT_REG_COORD_X = OUT_REG_COORD_X;
+  assign TB_OUT_REG_COORD_Y = OUT_REG_COORD_Y;
+  assign TB_OUT_REG_X = OUT_REG_X;
+  assign TB_OUT_REG_Y = OUT_REG_Y;
+  assign TB_OUT_REG_CPMV_0 = OUT_REG_CPMV_0; 
+  assign TB_OUT_REG_CPMV_1 = OUT_REG_CPMV_1;
 
 endmodule // MV_gen_datapath

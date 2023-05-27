@@ -1,12 +1,12 @@
 /*-----------------------------------------------------------------------------------
-* File: control.v
+* File: control_2.v
 * Date generated: 25/03/2023
 * Date modified: 15/05/2023
 * Author: Bruna Suemi Nagai
 * Description: FSM. 
 *----------------------------------------------------------------------------------- */
 
-module control (
+module control_2 (
 	// External input
 	input CLK_CTRL,
 	input RESET_ALL,
@@ -83,29 +83,29 @@ module control (
     reg [3:0]  STATE; 
     reg [3:0]  NEXT_STATE; 
 	 
-    reg NEXT_RST_ASYNC_MV_GEN;
-    reg NEXT_WRITE_REGS_COORDS;
-    reg NEXT_WRITE_REGS_CPMVS;
-    reg NEXT_WRITE_REGS_GEN_MVS;
-    reg NEXT_WRITE_REG_X;
-    reg NEXT_WRITE_REG_Y;
-    reg NEXT_WRITE_REG_COUNT_BLOCK;
-    reg NEXT_SEL_X;
-    reg NEXT_SEL_Y;
-
-    reg NEXT_RST_ASYNC_INTERP;
-    reg NEXT_RST_ASYNC_REG_COUNTER;
-    reg NEXT_WRITE_REG_INPUT_LINE;
-    reg NEXT_WRITE_REG_COUNTER;
-    reg NEXT_WRITE_REG_INT_OUT;
-    reg NEXT_WRITE_BUFFER;
-    reg NEXT_SEL_BUFFER_IN;
-    reg NEXT_SEL_INTERP_LINE_IN;
-    reg NEXT_SEL_DIMENSION;
-
-    reg NEXT_FLAG_INT_OUT;
-    reg NEXT_DONE_ALL;
-	 reg [3:0] NEXT_TB_STATE_NUM;
+//    reg RST_ASYNC_MV_GEN;
+//    reg WRITE_REGS_COORDS;
+//    reg WRITE_REGS_CPMVS;
+//    reg WRITE_REGS_GEN_MVS;
+//    reg WRITE_REG_X;
+//    reg WRITE_REG_Y;
+//    reg WRITE_REG_COUNT_BLOCK;
+//    reg SEL_X;
+//    reg SEL_Y;
+//
+//    reg RST_ASYNC_INTERP;
+//    reg RST_ASYNC_REG_COUNTER;
+//    reg WRITE_REG_INPUT_LINE;
+//    reg WRITE_REG_COUNTER;
+//    reg WRITE_REG_INT_OUT;
+//    reg WRITE_BUFFER;
+//    reg SEL_BUFFER_IN;
+//    reg SEL_INTERP_LINE_IN;
+//    reg SEL_DIMENSION;
+//
+//    reg FLAG_INT_OUT;
+//    reg DONE_ALL;
+//	 reg [3:0] TB_STATE_NUM;
 	 
 	 
 // ------------------------------------------
@@ -207,7 +207,7 @@ module control (
 						NEXT_STATE = S_INT_Y;
 					end
 					else if (LOOP_13 == 1'b1 && INTERP_X == 1'b1 && INTERP_Y == 1'b1) begin
-						NEXT_STATE = S_INT_XY_H;
+						NEXT_STATE = S_INT_XY_V;
 					end
 					else if (LOOP_4 == 1'b0 && INTERP_Y == 1'b0 && CTRL_Y == 1'b1) begin 
 						NEXT_STATE = S_NEXT_COLUMN;
@@ -251,7 +251,7 @@ module control (
 				end 
 				
 				S_DONE: begin 
-					if (RESET_ALL == 1'b0) begin 
+					if (RESET_ALL == 1'b1) begin 
 						NEXT_STATE = S_DONE;
 					end
 					else begin 
@@ -262,452 +262,427 @@ module control (
         endcase
     end
 
-//NEXT_RST_ASYNC_MV_GEN = 1'b1;
-//NEXT_WRITE_REGS_COORDS = 1'b0;
-//NEXT_WRITE_REGS_CPMVS = 1'b0;
-//NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-//NEXT_WRITE_REG_X = 1'b0;
-//NEXT_WRITE_REG_Y = 1'b0;
-//NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-//NEXT_SEL_X = 1'b0;
-//NEXT_SEL_Y = 1'b0;
-//
-//NEXT_RST_ASYNC_INTERP = 1'b1;
-//NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-//NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-//NEXT_WRITE_REG_COUNTER = 1'b0;
-//NEXT_WRITE_REG_INT_OUT = 1'b0;
-//NEXT_WRITE_BUFFER = 1'b0;
-//NEXT_SEL_BUFFER_IN = 1'b0;
-//NEXT_SEL_INTERP_LINE_IN = 1'b0;
-//NEXT_SEL_DIMENSION = 1'b0;
-//
-//NEXT_FLAG_INT_OUT = 1'b0;
-//NEXT_DONE_ALL = 1'b0;
+
 	 
 	 
     // Combinational procedure for next outputs
 	     always @(*) begin	
 			case (STATE)
 				S_IDLE: begin 
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;				
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_MV_GEN = 1'b0;				
+					RST_ASYNC_INTERP = 1'b0;
+					RST_ASYNC_REG_COUNTER = 1'b0;
 					
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0000;
+					TB_STATE_NUM = 4'b0000;
 				end 
 				
 				S_LOAD_MVGEN_IN: begin 
-//					RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b1;				
-//					RST_ASYNC_INTERP = 1'b1;
-//					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REGS_COORDS = 1'b1;				
 
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0001;
+					TB_STATE_NUM = 4'b0001;
 				end
 				
 				S_MVGEN_INIT: begin 
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b1;
-					NEXT_WRITE_REG_X = 1'b1;
-					NEXT_WRITE_REG_Y = 1'b1;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b1;
+					WRITE_REG_X = 1'b1;
+					WRITE_REG_Y = 1'b1;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0010;
+					TB_STATE_NUM = 4'b0010;
 				end
 				
 				S_MVGEN_DONE: begin 
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b1;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b1;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					RST_ASYNC_REG_COUNTER = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0011;
+					TB_STATE_NUM = 4'b0011;
 				end
 				
 				S_INT_DECISION: begin 
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b1;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_INPUT_LINE = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0100;
+					TB_STATE_NUM = 4'b0100;
 				end
 				
 				S_LOAD_BUFFER: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b1;
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b1;
-					NEXT_SEL_BUFFER_IN = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b1;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b1;
+					SEL_BUFFER_IN = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0101;
+					TB_STATE_NUM = 4'b0101;
 				end
 				
 				S_INT_X: begin 					
-					NEXT_WRITE_REG_INPUT_LINE = 1'b1;
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b1;
-					NEXT_SEL_DIMENSION = 1'b1;
-					NEXT_FLAG_INT_OUT = 1'b0;
+					WRITE_REG_INPUT_LINE = 1'b1;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b1;	// AQUI
+					SEL_INTERP_LINE_IN = 1'b1;
+					SEL_DIMENSION = 1'b1;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0110;
+					TB_STATE_NUM = 4'b0110;
 				end
 				
 				S_INT_Y: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b1;	// AQUI
+					WRITE_BUFFER = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					SEL_BUFFER_IN = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b0111;
+					TB_STATE_NUM = 4'b0111;
 				end
 				
 				S_INT_XY_H: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b1;
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b1;
-					NEXT_SEL_DIMENSION = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b1;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b1;
+					SEL_INTERP_LINE_IN = 1'b1;
+					SEL_DIMENSION = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1000;
+					TB_STATE_NUM = 4'b1000;
 				end
 				
 				S_INT_XY_V: begin 
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b1;	// AQUI
+					WRITE_BUFFER = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1001;
+					TB_STATE_NUM = 4'b1001;
 				end
 				
 				S_SKIP: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b1;
-					NEXT_WRITE_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b1;
-					NEXT_SEL_BUFFER_IN = 1'b1;
-					NEXT_FLAG_INT_OUT = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b1;
+					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b1;
+					SEL_BUFFER_IN = 1'b1;
+					FLAG_INT_OUT = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1010;
+					TB_STATE_NUM = 4'b1010;
 				end	
 				
-				S_LOOP2: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b1;
-					NEXT_SEL_BUFFER_IN = 1'b0;
+				S_LOOP1: begin 
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;	// AQUI
+					SEL_BUFFER_IN = 1'b0;
+					FLAG_INT_OUT = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1011;
+					TB_STATE_NUM = 4'b1011;
 				end
 				
-				S_LOOP1: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b1;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b1;
+				S_LOOP2: begin 
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;	
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_DIMENSION = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_REG_INT_OUT = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					DONE_ALL = 1'b0;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1100;
+					TB_STATE_NUM = 4'b1100;
 				end
 				
 				S_NEXT_LINE: begin 
-					NEXT_WRITE_REG_X = 1'b1;
-					NEXT_WRITE_REG_Y = 1'b1;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b1;
-					NEXT_SEL_X = 1'b1;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
+					WRITE_REG_X = 1'b1;
+					WRITE_REG_Y = 1'b1;
+					WRITE_REG_COUNT_BLOCK = 1'b1;
+					SEL_X = 1'b1;
+					SEL_Y = 1'b0;
+					RST_ASYNC_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1101;
+					TB_STATE_NUM = 4'b1101;
 				end
 				
 				S_NEXT_COLUMN: begin 
-					NEXT_WRITE_REG_Y = 1'b1;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b1;
-					NEXT_SEL_Y = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
+					WRITE_REG_Y = 1'b1;
+					WRITE_REG_COUNT_BLOCK = 1'b1;
+					SEL_Y = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					FLAG_INT_OUT = 1'b0;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
-					NEXT_DONE_ALL = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					SEL_X = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
+					DONE_ALL = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1110;
+					TB_STATE_NUM = 4'b1110;
 				end
 				
 				S_DONE: begin 
-					NEXT_WRITE_REG_INPUT_LINE = 1'b0;
-					NEXT_WRITE_REG_COUNTER = 1'b0;
-					NEXT_WRITE_REG_INT_OUT = 1'b0;
-					NEXT_FLAG_INT_OUT = 1'b0;
-					NEXT_DONE_ALL = 1'b1;
+					WRITE_REG_INPUT_LINE = 1'b0;
+					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_INT_OUT = 1'b0;
+					FLAG_INT_OUT = 1'b0;
+					DONE_ALL = 1'b1;
 					
-					NEXT_RST_ASYNC_MV_GEN = 1'b1;
-					NEXT_WRITE_REGS_COORDS = 1'b0;
-					NEXT_WRITE_REGS_CPMVS = 1'b0;
-					NEXT_WRITE_REGS_GEN_MVS = 1'b0;
-					NEXT_WRITE_REG_X = 1'b0;
-					NEXT_WRITE_REG_Y = 1'b0;
-					NEXT_WRITE_REG_COUNT_BLOCK = 1'b0;
-					NEXT_SEL_X = 1'b0;
-					NEXT_SEL_Y = 1'b0;
-					NEXT_RST_ASYNC_INTERP = 1'b1;
-					NEXT_RST_ASYNC_REG_COUNTER = 1'b1;
-					NEXT_WRITE_BUFFER = 1'b0;
-					NEXT_SEL_BUFFER_IN = 1'b0;
-					NEXT_SEL_INTERP_LINE_IN = 1'b0;
-					NEXT_SEL_DIMENSION = 1'b0;
+					RST_ASYNC_MV_GEN = 1'b1;
+					WRITE_REGS_COORDS = 1'b0;
+					WRITE_REGS_CPMVS = 1'b0;
+					WRITE_REGS_GEN_MVS = 1'b0;
+					WRITE_REG_X = 1'b0;
+					WRITE_REG_Y = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;
+					SEL_X = 1'b0;
+					SEL_Y = 1'b0;
+					RST_ASYNC_INTERP = 1'b1;
+					RST_ASYNC_REG_COUNTER = 1'b1;
+					WRITE_BUFFER = 1'b0;
+					SEL_BUFFER_IN = 1'b0;
+					SEL_INTERP_LINE_IN = 1'b0;
+					SEL_DIMENSION = 1'b0;
 					
-					NEXT_TB_STATE_NUM = 4'b1111;
+					TB_STATE_NUM = 4'b1111;
 				end			
 				
         endcase
@@ -716,61 +691,58 @@ module control (
 	 
 	 
     // Sequential procedure for outputs to memory wrapper
-    always @ (posedge CLK_CTRL, negedge RESET_ALL)
-    begin 
-        if (!RESET_ALL)
-        begin
-					RST_ASYNC_MV_GEN 			<= 1'b0;
-					WRITE_REGS_COORDS 		<= 1'b0;
-					WRITE_REGS_CPMVS 			<= 1'b0;
-					WRITE_REGS_GEN_MVS 		<= 1'b0;
-					WRITE_REG_X 				<= 1'b0;
-					WRITE_REG_Y 				<= 1'b0;
-					WRITE_REG_COUNT_BLOCK 	<= 1'b0;
-					RST_ASYNC_INTERP 			<= 1'b0;
-					RST_ASYNC_REG_COUNTER 	<= 1'b0;
-					WRITE_REG_INPUT_LINE 	<= 1'b0;
-					WRITE_REG_COUNTER 		<= 1'b0;
-					WRITE_REG_INT_OUT 		<= 1'b0;
-					WRITE_BUFFER 				<= 1'b0;
-					FLAG_INT_OUT 				<= 1'b0;
-					DONE_ALL 					<= 1'b0;
-					
-					TB_STATE_NUM				<= 4'b0000;
-        end
-        else begin
-					RST_ASYNC_MV_GEN				<= NEXT_RST_ASYNC_MV_GEN;
-					WRITE_REGS_COORDS				<= NEXT_WRITE_REGS_COORDS;
-					WRITE_REGS_CPMVS				<= NEXT_WRITE_REGS_CPMVS;
-					WRITE_REGS_GEN_MVS			<= NEXT_WRITE_REGS_GEN_MVS;
-					WRITE_REG_X						<= NEXT_WRITE_REG_X;
-					WRITE_REG_Y						<= NEXT_WRITE_REG_Y;
-					WRITE_REG_COUNT_BLOCK		<= NEXT_WRITE_REG_COUNT_BLOCK;
-					SEL_X								<= NEXT_SEL_X;
-					SEL_Y								<= NEXT_SEL_Y;
-
-					RST_ASYNC_INTERP				<= NEXT_RST_ASYNC_INTERP;
-					RST_ASYNC_REG_COUNTER		<= NEXT_RST_ASYNC_REG_COUNTER;
-					WRITE_REG_INPUT_LINE			<= NEXT_WRITE_REG_INPUT_LINE;
-					WRITE_REG_COUNTER				<= NEXT_WRITE_REG_COUNTER;
-					WRITE_REG_INT_OUT				<= NEXT_WRITE_REG_INT_OUT;
-					WRITE_BUFFER					<= NEXT_WRITE_BUFFER;
-					SEL_BUFFER_IN					<= NEXT_SEL_BUFFER_IN;
-					SEL_INTERP_LINE_IN			<= NEXT_SEL_INTERP_LINE_IN;
-					SEL_DIMENSION					<= NEXT_SEL_DIMENSION;
-
-					FLAG_INT_OUT					<= NEXT_FLAG_INT_OUT;
-					DONE_ALL							<= NEXT_DONE_ALL;	
-					
-					TB_STATE_NUM					<= NEXT_TB_STATE_NUM;
-        end
-    end
+//    always @ (posedge CLK_CTRL, negedge RESET_ALL)
+//    begin 
+//        if (!RESET_ALL)
+//        begin
+//					RST_ASYNC_MV_GEN 			<= 1'b0;
+//					WRITE_REGS_COORDS 		<= 1'b0;
+//					WRITE_REGS_CPMVS 			<= 1'b0;
+//					WRITE_REGS_GEN_MVS 		<= 1'b0;
+//					WRITE_REG_X 				<= 1'b0;
+//					WRITE_REG_Y 				<= 1'b0;
+//					WRITE_REG_COUNT_BLOCK 	<= 1'b0;
+//					RST_ASYNC_INTERP 			<= 1'b0;
+//					RST_ASYNC_REG_COUNTER 	<= 1'b0;
+//					WRITE_REG_INPUT_LINE 	<= 1'b0;
+//					WRITE_REG_COUNTER 		<= 1'b0;
+//					WRITE_REG_INT_OUT 		<= 1'b0;
+//					WRITE_BUFFER 				<= 1'b0;
+//					FLAG_INT_OUT 				<= 1'b0;
+//					DONE_ALL 					<= 1'b0;
+//					
+//					TB_STATE_NUM				<= 4'b0000;
+//        end
+//        else begin
+//					RST_ASYNC_MV_GEN				<= NEXT_RST_ASYNC_MV_GEN;
+//					WRITE_REGS_COORDS				<= NEXT_WRITE_REGS_COORDS;
+//					WRITE_REGS_CPMVS				<= NEXT_WRITE_REGS_CPMVS;
+//					WRITE_REGS_GEN_MVS			<= NEXT_WRITE_REGS_GEN_MVS;
+//					WRITE_REG_X						<= NEXT_WRITE_REG_X;
+//					WRITE_REG_Y						<= NEXT_WRITE_REG_Y;
+//					WRITE_REG_COUNT_BLOCK		<= NEXT_WRITE_REG_COUNT_BLOCK;
+//					SEL_X								<= NEXT_SEL_X;
+//					SEL_Y								<= NEXT_SEL_Y;
+//
+//					RST_ASYNC_INTERP				<= NEXT_RST_ASYNC_INTERP;
+//					RST_ASYNC_REG_COUNTER		<= NEXT_RST_ASYNC_REG_COUNTER;
+//					WRITE_REG_INPUT_LINE			<= NEXT_WRITE_REG_INPUT_LINE;
+//					WRITE_REG_COUNTER				<= NEXT_WRITE_REG_COUNTER;
+//					WRITE_REG_INT_OUT				<= NEXT_WRITE_REG_INT_OUT;
+//					WRITE_BUFFER					<= NEXT_WRITE_BUFFER;
+//					SEL_BUFFER_IN					<= NEXT_SEL_BUFFER_IN;
+//					SEL_INTERP_LINE_IN			<= NEXT_SEL_INTERP_LINE_IN;
+//					SEL_DIMENSION					<= NEXT_SEL_DIMENSION;
+//
+//					FLAG_INT_OUT					<= NEXT_FLAG_INT_OUT;
+//					DONE_ALL							<= NEXT_DONE_ALL;	
+//					
+//					TB_STATE_NUM					<= NEXT_TB_STATE_NUM;
+//        end
+//    end
 
 										
-endmodule // control
-
-
-
+endmodule // control_2
 
 
 

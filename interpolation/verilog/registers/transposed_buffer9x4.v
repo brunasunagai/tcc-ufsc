@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------------
-* File: transposed_buffer.v
+* File: transposed_buffer9x4.v
 * Date generated: 25/03/2023
 * Date modified: 25/05/2023
 * Author: Bruna Suemi Nagai
@@ -22,7 +22,7 @@ COL1:   [10, 0, 10, 5, 99, 44, 25, 4, 127],
 COL2:   [12, 1, 121, 8, 41, 47, 66, 0, 1], 
 COL3:   [120, 7, 1, 12, 4, 106, 68, 15, 88]] */
 
-module transposed_buffer (
+module transposed_buffer9x4 (
 	CLK, 
 	RST_ASYNC_N,
 	WRITE_EN,
@@ -385,4 +385,4 @@ reg_internal_buffer R35 (
   assign OUTPUT_3 = COLUMN_3;
 
 
-endmodule // transposed_buffer
+endmodule // transposed_buffer9x4
