@@ -23,6 +23,7 @@ module control_2 (
    input LOOP_4,
    input LOOP_9,
    input LOOP_13,
+	input LOOP_14,
 	
 	// MV Gen output
 	output reg RST_ASYNC_MV_GEN,				// Set of reg resets: coord_X, coord_Y, X, Y, MV_0, MV_1, gen_MV_X, gen_MV_Y and count_block.
@@ -38,8 +39,10 @@ module control_2 (
 	// Interpolator output
 	output reg RST_ASYNC_INTERP,				// Async reset for regs INPUT_LINE, INT_OUT and BUFFER.
 	output reg RST_ASYNC_REG_COUNTER,
+	output reg RST_ASYNC_REG_BUF_COL_COUNTER,
 	output reg WRITE_REG_INPUT_LINE,
 	output reg WRITE_REG_COUNTER,
+	output reg WRITE_REG_BUF_COL_COUNTER,
 	output reg WRITE_REG_INT_OUT,
 	output reg WRITE_BUFFER,
 	output reg SEL_BUFFER_IN,					// 0: 1st pass output; 1: OUT_REG_INPUT_LINE
@@ -51,7 +54,6 @@ module control_2 (
 	output reg DONE_ALL,
 	output reg [3:0] TB_STATE_NUM
 );
-
 
 	
 // ------------------------------------------
@@ -202,29 +204,47 @@ module control_2 (
 				S_LOOP1: begin
 					if (LOOP_4 == 1'b1 && INTERP_X == 1'b1 && INTERP_Y == 1'b0) begin
 						NEXT_STATE = S_INT_X;
-					end
-					else if (LOOP_13 == 1'b1 && INTERP_X == 1'b0 && INTERP_Y == 1'b1) begin
+					end				
+					else if (LOOP_14 == 1'b1 && INTERP_X == 1'b0 && INTERP_Y == 1'b1) begin
 						NEXT_STATE = S_INT_Y;
-					end
+					end	
 					else if (LOOP_13 == 1'b1 && INTERP_X == 1'b1 && INTERP_Y == 1'b1) begin
-						NEXT_STATE = S_INT_XY_V;
+						NEXT_STATE= S_INT_XY_V;
 					end
-					else if (LOOP_4 == 1'b0 && INTERP_Y == 1'b0 && CTRL_Y == 1'b1) begin 
+					
+					
+					
+					else if (LOOP_4 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b0 && CTRL_Y == 1'b1) begin 
 						NEXT_STATE = S_NEXT_COLUMN;
 					end
-					else if (LOOP_13 == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b1) begin 
+					else if (LOOP_13 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b1 && CTRL_Y == 1'b1) begin 
 						NEXT_STATE = S_NEXT_COLUMN;
 					end
-					else if (LOOP_4 == 1'b0 && INTERP_Y == 1'b0 && CTRL_Y == 1'b0 && CTRL_X == 1'b1) begin 
+					else if (LOOP_14 == 1'b0 && INTERP_X == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b1) begin 
+						NEXT_STATE = S_NEXT_COLUMN;
+					end
+					
+					
+					
+					else if (LOOP_4 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b0 && CTRL_Y == 1'b0 && CTRL_X == 1'b1) begin 
 						NEXT_STATE = S_NEXT_LINE;
 					end
-					else if (LOOP_13 == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b1) begin 
+					else if (LOOP_13 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b1) begin 
 						NEXT_STATE = S_NEXT_LINE;
 					end
-					else if (LOOP_4 == 1'b0 && INTERP_Y == 1'b0 && CTRL_Y == 1'b0 && CTRL_X == 1'b0) begin 
+					else if (LOOP_14 == 1'b0 && INTERP_X == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b1) begin 
+						NEXT_STATE = S_NEXT_LINE;
+					end
+					
+					
+					
+					else if (LOOP_4 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b0 && CTRL_Y == 1'b0 && CTRL_X == 1'b0) begin 
 						NEXT_STATE = S_DONE;
 					end
-					else if (LOOP_13 == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b0) begin 
+					else if (LOOP_13 == 1'b0 && INTERP_X == 1'b1 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b0) begin 
+						NEXT_STATE = S_DONE;
+					end
+					else if (LOOP_14 == 1'b0 && INTERP_X == 1'b0 && INTERP_Y == 1'b1 && CTRL_Y == 1'b0 && CTRL_X == 1'b0) begin 
 						NEXT_STATE = S_DONE;
 					end
 				end
@@ -272,13 +292,15 @@ module control_2 (
 					RST_ASYNC_MV_GEN = 1'b0;				
 					RST_ASYNC_INTERP = 1'b0;
 					RST_ASYNC_REG_COUNTER = 1'b0;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b0;
 					
 					WRITE_REGS_COORDS = 1'b0;
 					WRITE_REGS_CPMVS = 1'b0;
 					WRITE_REGS_GEN_MVS = 1'b0;
 					WRITE_REG_X = 1'b0;
 					WRITE_REG_Y = 1'b0;
-					WRITE_REG_COUNT_BLOCK = 1'b0;
+					WRITE_REG_COUNT_BLOCK = 1'b0;		
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					SEL_X = 1'b0;
 					SEL_Y = 1'b0;
 					WRITE_REG_INPUT_LINE = 1'b0;
@@ -307,6 +329,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
@@ -333,6 +357,8 @@ module control_2 (
 					WRITE_REG_COUNT_BLOCK = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
@@ -353,6 +379,7 @@ module control_2 (
 					WRITE_REG_Y = 1'b0;
 					WRITE_REG_COUNT_BLOCK = 1'b0;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
 					
 					RST_ASYNC_MV_GEN = 1'b1;
 					WRITE_REGS_COORDS = 1'b0;
@@ -361,6 +388,7 @@ module control_2 (
 					RST_ASYNC_INTERP = 1'b1;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					WRITE_BUFFER = 1'b0;
 					SEL_BUFFER_IN = 1'b0;
@@ -386,6 +414,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					WRITE_BUFFER = 1'b0;
@@ -415,6 +445,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
 					SEL_DIMENSION = 1'b0;
@@ -443,6 +475,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_BUFFER = 1'b0;
 					SEL_BUFFER_IN = 1'b0;
 					FLAG_INT_OUT = 1'b0;
@@ -454,6 +488,7 @@ module control_2 (
 				S_INT_Y: begin 
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b1;
 					WRITE_REG_INT_OUT = 1'b1;	// AQUI
 					WRITE_BUFFER = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
@@ -471,6 +506,7 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
 					SEL_BUFFER_IN = 1'b0;
 					DONE_ALL = 1'b0;
 					
@@ -495,6 +531,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					SEL_BUFFER_IN = 1'b0;
 					FLAG_INT_OUT = 1'b0;
@@ -505,6 +543,7 @@ module control_2 (
 				
 				S_INT_XY_V: begin 
 					WRITE_REG_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b1;
 					WRITE_REG_INT_OUT = 1'b1;	// AQUI
 					WRITE_BUFFER = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
@@ -522,6 +561,7 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					SEL_BUFFER_IN = 1'b0;
 					DONE_ALL = 1'b0;
@@ -547,6 +587,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_BUFFER = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
 					SEL_DIMENSION = 1'b0;
@@ -558,6 +600,7 @@ module control_2 (
 				S_LOOP1: begin 
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;	// AQUI
 					SEL_BUFFER_IN = 1'b0;
 					FLAG_INT_OUT = 1'b1;
@@ -573,6 +616,7 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
 					WRITE_BUFFER = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
 					SEL_DIMENSION = 1'b0;
@@ -599,6 +643,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;
 					DONE_ALL = 1'b0;
@@ -614,6 +660,7 @@ module control_2 (
 					SEL_X = 1'b1;
 					SEL_Y = 1'b0;
 					RST_ASYNC_REG_COUNTER = 1'b0;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					FLAG_INT_OUT = 1'b0;
 					
@@ -622,6 +669,7 @@ module control_2 (
 					WRITE_REGS_CPMVS = 1'b0;
 					WRITE_REGS_GEN_MVS = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
 					WRITE_BUFFER = 1'b0;
@@ -638,6 +686,7 @@ module control_2 (
 					WRITE_REG_COUNT_BLOCK = 1'b1;
 					SEL_Y = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b0;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INT_OUT = 1'b0;
 					FLAG_INT_OUT = 1'b0;
 					
@@ -648,6 +697,7 @@ module control_2 (
 					WRITE_REG_X = 1'b0;
 					SEL_X = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_REG_INPUT_LINE = 1'b0;
 					WRITE_REG_COUNTER = 1'b0;
 					WRITE_BUFFER = 1'b0;
@@ -677,6 +727,8 @@ module control_2 (
 					SEL_Y = 1'b0;
 					RST_ASYNC_INTERP = 1'b1;
 					RST_ASYNC_REG_COUNTER = 1'b1;
+					RST_ASYNC_REG_BUF_COL_COUNTER = 1'b1;
+					WRITE_REG_BUF_COL_COUNTER = 1'b0;
 					WRITE_BUFFER = 1'b0;
 					SEL_BUFFER_IN = 1'b0;
 					SEL_INTERP_LINE_IN = 1'b0;

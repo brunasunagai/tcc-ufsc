@@ -1,12 +1,12 @@
 /*-----------------------------------------------------------------------------------
-* File: top_level.v
+* File: affine_tcc.v
 * Date generated: 25/03/2023
 * Date modified: 15/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Connect: MV Gen + Interpolator + Control.
 *----------------------------------------------------------------------------------- */
 
-module top_level (
+module affine_tcc (
 	input TOP_CLK, 
 	input TOP_RESET,
 	input TOP_START,
@@ -57,23 +57,8 @@ module top_level (
 	output wire [65:0] TB_TOP_IN_ALL_FILTERS_1,
 	output wire [65:0] TB_TOP_IN_ALL_FILTERS_2,
 	output wire [65:0] TB_TOP_IN_ALL_FILTERS_3,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_0,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_1,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_2,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_3,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_4,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_5,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_6,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_7,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_8,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_9,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_10,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_11,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_12,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_13,
-//	output wire [13:0] TB_TOP_OUT_INTERP_0_14,
-	output wire [3:0] TB_TOP_OUT_ADD_COUNTER,
-	output wire [3:0] TB_TOP_OUT_REG_COUNTER
+	output wire [1:0] TB_TOP_OUT_ADD_BUF_COL_COUNTER,
+	output wire [1:0] TB_TOP_OUT_REG_BUF_COL_COUNTER
 );
 
 
@@ -84,9 +69,11 @@ module top_level (
 	// From Interpolator
 	wire wi_rst_interp;
 	wire wi_rst_reg_counter;
+	wire wi_rst_reg_buf_col_counter;
 	
 	wire wi_wr_reg_input_line;
 	wire wi_wr_reg_counter;
+	wire wi_wr_reg_buf_col_counter;
 	wire wi_wr_reg_int_out;
 	wire wi_wr_buffer;
 	
@@ -101,6 +88,7 @@ module top_level (
 	wire wi_loop_4;
 	wire wi_loop_9;
 	wire wi_loop_13;
+	wire wi_loop_14;
 	
 
 	// From MV Generator
@@ -129,10 +117,12 @@ module top_level (
 		.CLK (TOP_CLK),
 		.RST_ASYNC_INTERP (wi_rst_interp),
 		.RST_ASYNC_REG_COUNTER (wi_rst_reg_counter),
+		.RST_ASYNC_REG_BUF_COL_COUNTER (wi_rst_reg_buf_col_counter),
 		.WRITE_REG_INPUT_LINE (wi_wr_reg_input_line),
 		.WRITE_REG_COUNTER (wi_wr_reg_counter),
 		.WRITE_REG_INT_OUT (wi_wr_reg_int_out),
 		.WRITE_BUFFER (wi_wr_buffer),
+		.WRITE_REG_BUF_COL_COUNTER (wi_wr_reg_buf_col_counter),
 		.SEL_BUFFER_IN (wi_sel_buffer_in),
 		.SEL_INTERP_IN (wi_sel_interp_in),
 		.SEL_DIMENSION (wi_sel_dimension),
@@ -143,6 +133,7 @@ module top_level (
 		.LOOP_4 (wi_loop_4),
 		.LOOP_9 (wi_loop_9),
 		.LOOP_13 (wi_loop_13),
+		.LOOP_14 (wi_loop_14),
 		.INTERP_OUT_0 (TOP_INTERP_OUT_0),
 		.INTERP_OUT_1 (TOP_INTERP_OUT_1),
 		.INTERP_OUT_2 (TOP_INTERP_OUT_2),
@@ -177,8 +168,8 @@ module top_level (
 //		.TB_OUT_INTERP_0_12 (TB_TOP_OUT_INTERP_0_12),
 //		.TB_OUT_INTERP_0_13 (TB_TOP_OUT_INTERP_0_13),
 //		.TB_OUT_INTERP_0_14 (TB_TOP_OUT_INTERP_0_14),
-		.TB_OUT_ADD_COUNTER (TB_TOP_OUT_ADD_COUNTER),
-		.TB_OUT_REG_COUNTER (TB_TOP_OUT_REG_COUNTER)
+		.TB_OUT_ADD_BUF_COL_COUNTER (TB_TOP_OUT_ADD_BUF_COL_COUNTER),
+		.TB_OUT_REG_BUF_COL_COUNTER (TB_TOP_OUT_REG_BUF_COL_COUNTER)
 	);
 	
 	
@@ -229,6 +220,7 @@ module top_level (
 		.LOOP_4 (wi_loop_4),
 		.LOOP_9 (wi_loop_9),
 		.LOOP_13 (wi_loop_13),
+		.LOOP_14 (wi_loop_14),
 		.RST_ASYNC_MV_GEN (wm_rst_mv_gen),
 		.WRITE_REGS_COORDS (wm_wr_regs_coords),
 		.WRITE_REGS_CPMVS (wm_wr_regs_cpmvs),
@@ -240,8 +232,10 @@ module top_level (
 		.SEL_Y (wm_sel_y),
 		.RST_ASYNC_INTERP (wi_rst_interp),
 		.RST_ASYNC_REG_COUNTER (wi_rst_reg_counter),
+		.RST_ASYNC_REG_BUF_COL_COUNTER (wi_rst_reg_buf_col_counter),
 		.WRITE_REG_INPUT_LINE (wi_wr_reg_input_line),
 		.WRITE_REG_COUNTER (wi_wr_reg_counter),
+		.WRITE_REG_BUF_COL_COUNTER (wi_wr_reg_buf_col_counter),
 		.WRITE_REG_INT_OUT (wi_wr_reg_int_out),
 		.WRITE_BUFFER (wi_wr_buffer),
 		.SEL_BUFFER_IN (wi_sel_buffer_in),
@@ -254,7 +248,7 @@ module top_level (
 	);
 	
 	
-endmodule // top_level
+endmodule // affine_tcc
 
 
 

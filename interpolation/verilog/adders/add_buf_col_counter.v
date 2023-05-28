@@ -1,15 +1,15 @@
 /*-----------------------------------------------------------------------------------
-* File: add_coords.v
+* File: add_buf_col_counter.v
 * Date generated: 25/03/2023
 * Date modified: 27/05/2023
 * Author: Bruna Suemi Nagai
-* Description: Adds the original coord value plus 1. Works for X and Y coords.
+* Description: Adder to select the buffer columnn
 *----------------------------------------------------------------------------------- */
 
-module add_coords (
-  input signed [7:0] A,
-  input signed [7:0] B,
-  output reg signed [7:0] C
+module add_buf_col_counter (
+  input  [1:0] A,
+  input  [1:0] B,
+  output reg  [1:0] C
 );
     
 
@@ -19,5 +19,5 @@ module add_coords (
 always @ (A or B) begin
   C = A + B;
 end
-endmodule // add_coords
+endmodule // add_buf_col_counter
     

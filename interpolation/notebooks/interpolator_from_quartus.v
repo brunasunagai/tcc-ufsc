@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
  * File: interpolation_datapath.v
  * Date generated: 13/03/2023
- * Date modified: 23/05/2023
+ * Date modified: 27/05/2023
  * Author: Bruna Suemi Nagai
  * Description: Interpolation datapath to process 
  *------------------------------------------------------------------------------ */
@@ -28,7 +28,6 @@ module interpolation_datapath (
   output wire [13:0] INTERP_OUT_1,
   output wire [13:0] INTERP_OUT_2,
   output wire [13:0] INTERP_OUT_3,
-  
   output wire [71:0] TB_OUT_REG_INPUT_LINE,
   output wire [13:0] TB_OUT_MUX_SEL_FILTER_0,
   output wire [13:0] TB_OUT_MUX_SEL_FILTER_1,
@@ -43,21 +42,6 @@ module interpolation_datapath (
   output wire [65:0] TB_IN_ALL_FILTERS_1,
   output wire [65:0] TB_IN_ALL_FILTERS_2,
   output wire [65:0] TB_IN_ALL_FILTERS_3,
-  output wire [13:0] TB_OUT_INTERP_0_0,
-  output wire [13:0] TB_OUT_INTERP_0_1,
-  output wire [13:0] TB_OUT_INTERP_0_2,
-  output wire [13:0] TB_OUT_INTERP_0_3,
-  output wire [13:0] TB_OUT_INTERP_0_4,
-  output wire [13:0] TB_OUT_INTERP_0_5,
-  output wire [13:0] TB_OUT_INTERP_0_6,
-  output wire [13:0] TB_OUT_INTERP_0_7,
-  output wire [13:0] TB_OUT_INTERP_0_8,
-  output wire [13:0] TB_OUT_INTERP_0_9,
-  output wire [13:0] TB_OUT_INTERP_0_10,
-  output wire [13:0] TB_OUT_INTERP_0_11,
-  output wire [13:0] TB_OUT_INTERP_0_12,
-  output wire [13:0] TB_OUT_INTERP_0_13,
-  output wire [13:0] TB_OUT_INTERP_0_14,
   output wire [3:0] TB_OUT_ADD_COUNTER,
   output wire [3:0] TB_OUT_REG_COUNTER
 );
@@ -252,7 +236,7 @@ module interpolation_datapath (
 	.DATA_IN_3 (OUT_BUFFER_1),
 	.DATA_IN_4 (OUT_BUFFER_2),
 	.DATA_IN_5 (OUT_BUFFER_3),
-	.SELECT (OUT_REG_COUNTER[2:0]),
+	.SELECT (OUT_ADD_COUNTER[2:0]),
 	.DATA_OUT (OUT_MUX_SEL_BUFFER_COLUMN));
 
   mux_sel_interp_line_in MUX_SEL_INTERP_LINE_IN (		
@@ -458,21 +442,6 @@ module interpolation_datapath (
   assign TB_IN_ALL_FILTERS_1 = OUT_MUX_SEL_INTERP_LINE_IN[87:22];
   assign TB_IN_ALL_FILTERS_2 = OUT_MUX_SEL_INTERP_LINE_IN[76:11];
   assign TB_IN_ALL_FILTERS_3 = OUT_MUX_SEL_INTERP_LINE_IN[65:0];
-  assign TB_OUT_INTERP_0_0 = OUT_INTERP_0_0;
-  assign TB_OUT_INTERP_0_1 = OUT_INTERP_0_1;
-  assign TB_OUT_INTERP_0_2 = OUT_INTERP_0_2;
-  assign TB_OUT_INTERP_0_3 = OUT_INTERP_0_3;
-  assign TB_OUT_INTERP_0_4 = OUT_INTERP_0_4;
-  assign TB_OUT_INTERP_0_5 = OUT_INTERP_0_5;
-  assign TB_OUT_INTERP_0_6 = OUT_INTERP_0_6;
-  assign TB_OUT_INTERP_0_7 = OUT_INTERP_0_7;
-  assign TB_OUT_INTERP_0_8 = OUT_INTERP_0_8;
-  assign TB_OUT_INTERP_0_9 = OUT_INTERP_0_9;
-  assign TB_OUT_INTERP_0_10 = OUT_INTERP_0_10;
-  assign TB_OUT_INTERP_0_11 = OUT_INTERP_0_11;
-  assign TB_OUT_INTERP_0_12 = OUT_INTERP_0_12;
-  assign TB_OUT_INTERP_0_13 = OUT_INTERP_0_13;
-  assign TB_OUT_INTERP_0_14 = OUT_INTERP_0_14;
   assign TB_OUT_ADD_COUNTER = OUT_ADD_COUNTER;
   assign TB_OUT_REG_COUNTER = OUT_REG_COUNTER;
 

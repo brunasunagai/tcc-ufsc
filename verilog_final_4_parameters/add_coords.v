@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: add_coords.v
 * Date generated: 25/03/2023
-* Date modified: 27/05/2023
+* Date modified: 11/05/2023
 * Author: Bruna Suemi Nagai
 * Description: Adds the original coord value plus 1. Works for X and Y coords.
 *----------------------------------------------------------------------------------- */
