@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 * File: reg_counter.v
 * Date generated: 25/03/2023
-* Date modified: 11/05/2023
+* Date modified: 01/06/2023
 * Author: Bruna Suemi Nagai
 * Description: Stores the counter value to control all the loops
 *----------------------------------------------------------------------------------- */
